@@ -1,0 +1,22 @@
+defaults:
+  debug: false
+  disabled: false
+  dhcp:
+    leaseTime: 24h
+    start: 10.0.60.2
+    stop:  10.0.60.101
+  share:
+    disabled: false
+    interface: ""
+  wifi:
+    address: 10.0.60.1
+    channel: 8
+    countryCode: ""
+    hostapdDriver: nl80211
+    interface: ""
+    interfaceMode: direct
+    netmask: 255.0.0.0
+    mode: g
+    security: wpa2
+    password: ""
+    ssid: ""

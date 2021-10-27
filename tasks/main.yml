@@ -1,25 +1,31 @@
 - name: Install wifi-ap
+  become: true
   snap:
     name:
       - wifi-ap
-- name: Create hotspot
-  shell: >
-    wifi-ap.config set disabled=true &&
-    wifi-ap.config set wifi.address={{ wifi.address | default("10.0.60.1") }} &&
-    wifi-ap.config set wifi.ssid={{ wifi.ssid }} &&
-    wifi-ap.config set wifi.security-passphrase={{ wifi.password }} &&
-    wifi-ap.config set wifi.channel={{ wifi.channel | default("8") }} &&
-    wifi-ap.config set wifi.interface={{ wifi.interface }} &&
-    wifi-ap.config set wifi.operation-mode={{ wifi.mode | default("g") }} &&
-    wifi-ap.config set wifi.country-code={{ wifi.countryCode | default("") }} &&
-    wifi-ap.config set wifi.hostapd-driver={{ wifi.hostapdDriver | default("nl80211")}} &&
-    wifi-ap.config set wifi.interface-mode={{ wifi.interfaceMode | default("direct") }} &&
-    wifi-ap.config set wifi.netmask={{ wifi.netmask | default("255.0.0.0") }} &&
-    wifi-ap.config set wifi.security={{ wifi.security | default("wpa2") }} &&
-    wifi-ap.config set dhcp.range-start={{ dhcp.start | default("10.0.60.2") }} &&
-    wifi-ap.config set dhcp.range-stop={{ dhcp.stop | default ("10.0.60.101") }} &&
-    wifi-ap.config set dhcp.lease-time={{ dhcp.leaseTime | default("24h") }} &&
-    wifi-ap.config set share.network-interface={{ share.interface }} &&
-    wifi-ap.config set share.disabled={{ disabled | default("false") }} &&
-    wifi-ap.config set debug={{ debug | default("false") }} &&
-    wifi-ap.config set disabled={{ disabled | default("false") }}
+- name: Get wifi-ap.config
+  become: true
+  shell: wifi-ap.config get
+  register: wifiap
+  changed_when: >
+    not (
+      'debug: ' ~ (debug | default(defaults.debug)) in wifiap.stdout_lines and
+      'dhcp.lease-time: ' ~ (dhcp.leaseTime | default(defaults.dhcp.leaseTime)) in wifiap.stdout_lines and
+      'dhcp.range-start: ' ~ (dhcp.start | default(defaults.dhcp.start)) in wifiap.stdout_lines and
+      'dhcp.range-stop: ' ~ (dhcp.stop | default(defaults.dhcp.stop)) in wifiap.stdout_lines and
+      'disabled: ' ~ (disabled | default(defaults.disabled)) in wifiap.stdout_lines and
+      'share.disabled: ' ~ (share.disabled | default(defaults.share.disabled)) in wifiap.stdout_lines and
+      'share.network-interface: ' ~ (share.interface | default(defaults.share.interface)) in wifiap.stdout_lines and
+      'wifi.address: ' ~ (wifi.address | default(defaults.wifi.address)) in wifiap.stdout_lines and
+      'wifi.channel: ' ~ (wifi.channel | default(defaults.wifi.channel)) in wifiap.stdout_lines and
+      'wifi.country-code: ' ~ (wifi.countryCode | default(defaults.wifi.countryCode)) in wifiap.stdout_lines and
+      'wifi.hostapd-driver: ' ~ (wifi.hostapdDriver | default(defaults.wifi.hostapdDriver)) in wifiap.stdout_lines and
+      'wifi.interface: ' ~ (wifi.interface | default(defaults.wifi.interface)) in wifiap.stdout_lines and
+      'wifi.interface-mode: ' ~ (wifi.interfaceMode | default(defaults.wifi.interfaceMode)) in wifiap.stdout_lines and
+      'wifi.netmask: ' ~ (wifi.netmask | default(defaults.wifi.netmask)) in wifiap.stdout_lines and
+      'wifi.operation-mode: ' ~ (wifi.mode | default(defaults.wifi.mode)) in wifiap.stdout_lines and
+      'wifi.security: ' ~ (wifi.security | default(defaults.wifi.security)) in wifiap.stdout_lines and
+      'wifi.security-passphrase: ' ~ (wifi.password | default(defaults.wifi.password)) in wifiap.stdout_lines and
+      'wifi.ssid: ' ~ (wifi.ssid | default(defaults.wifi.ssid)) in wifiap.stdout_lines
+    )
+  notify: Create hotspot

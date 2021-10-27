@@ -1,0 +1,22 @@
+- name: Create hotspot
+  become: true
+  shell: >
+    wifi-ap.config set disabled=true &&
+    wifi-ap.config set wifi.address={{ wifi.address | default(defaults.wifi.address) }} &&
+    wifi-ap.config set wifi.ssid={{ wifi.ssid | default(defaults.wifi.ssid) }} &&
+    wifi-ap.config set wifi.security-passphrase={{ wifi.password | default(defaults.wifi.password) }} &&
+    wifi-ap.config set wifi.channel={{ wifi.channel | default(defaults.wifi.channel) }} &&
+    wifi-ap.config set wifi.interface={{ wifi.interface | default(defaults.wifi.interface) }} &&
+    wifi-ap.config set wifi.operation-mode={{ wifi.mode | default(defaults.wifi.mode) }} &&
+    wifi-ap.config set wifi.country-code={{ wifi.countryCode | default(defaults.wifi.countryCode) }} &&
+    wifi-ap.config set wifi.hostapd-driver={{ wifi.hostapdDriver | default(defaults.wifi.hostapdDriver)}} &&
+    wifi-ap.config set wifi.interface-mode={{ wifi.interfaceMode | default(defaults.wifi.interfaceMode) }} &&
+    wifi-ap.config set wifi.netmask={{ wifi.netmask | default(defaults.wifi.netmask) }} &&
+    wifi-ap.config set wifi.security={{ wifi.security | default(defaults.wifi.security) }} &&
+    wifi-ap.config set dhcp.range-start={{ dhcp.start | default(defaults.dhcp.start) }} &&
+    wifi-ap.config set dhcp.range-stop={{ dhcp.stop | default(defaults.dhcp.stop) }} &&
+    wifi-ap.config set dhcp.lease-time={{ dhcp.leaseTime | default(defaults.dhcp.leaseTime) }} &&
+    wifi-ap.config set share.network-interface={{ share.interface | default(defaults.share.interface) }} &&
+    wifi-ap.config set share.disabled={{ disabled | default(defaults.disabled) }} &&
+    wifi-ap.config set debug={{ debug | default(defaults.debug) }} &&
+    wifi-ap.config set disabled={{ disabled | default(defaults.disabled) }}
