@@ -1,0 +1,25 @@
+- name: Install wifi-ap
+  snap:
+    name:
+      - wifi-ap
+- name: Create hotspot
+  shell: >
+    wifi-ap.config set disabled=true &&
+    wifi-ap.config set wifi.address={{ wifi.address | default("10.0.60.1") }} &&
+    wifi-ap.config set wifi.ssid={{ wifi.ssid }} &&
+    wifi-ap.config set wifi.security-passphrase={{ wifi.password }} &&
+    wifi-ap.config set wifi.channel={{ wifi.channel | default("8") }} &&
+    wifi-ap.config set wifi.interface={{ wifi.interface }} &&
+    wifi-ap.config set wifi.operation-mode={{ wifi.mode | default("g") }} &&
+    wifi-ap.config set wifi.country-code={{ wifi.countryCode | default("") }} &&
+    wifi-ap.config set wifi.hostapd-driver={{ wifi.hostapdDriver | default("nl80211")}} &&
+    wifi-ap.config set wifi.interface-mode={{ wifi.interfaceMode | default("direct") }} &&
+    wifi-ap.config set wifi.netmask={{ wifi.netmask | default("255.0.0.0") }} &&
+    wifi-ap.config set wifi.security={{ wifi.security | default("wpa2") }} &&
+    wifi-ap.config set dhcp.range-start={{ dhcp.start | default("10.0.60.2") }} &&
+    wifi-ap.config set dhcp.range-stop={{ dhcp.stop | default ("10.0.60.101") }} &&
+    wifi-ap.config set dhcp.lease-time={{ dhcp.leaseTime | default("24h") }} &&
+    wifi-ap.config set share.network-interface={{ share.interface }} &&
+    wifi-ap.config set share.disabled={{ disabled | default("false") }} &&
+    wifi-ap.config set debug={{ debug | default("false") }} &&
+    wifi-ap.config set disabled={{ disabled | default("false") }}
