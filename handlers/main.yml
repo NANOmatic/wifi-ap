@@ -17,6 +17,6 @@
     wifi-ap.config set dhcp.range-stop={{ dhcp.stop | default(defaults.dhcp.stop) }} &&
     wifi-ap.config set dhcp.lease-time={{ dhcp.leaseTime | default(defaults.dhcp.leaseTime) }} &&
     wifi-ap.config set share.network-interface={{ share.interface | default(defaults.share.interface) }} &&
-    wifi-ap.config set share.disabled={{ disabled | default(defaults.disabled) }} &&
-    wifi-ap.config set debug={{ debug | default(defaults.debug) }} &&
-    wifi-ap.config set disabled={{ disabled | default(defaults.disabled) }}
+    wifi-ap.config set share.disabled={{ disabled | default(defaults.disabled) | ternary('true', 'false') }} &&
+    wifi-ap.config set debug={{ debug | default(defaults.debug) | ternary('true', 'false') }} &&
+    wifi-ap.config set disabled={{ disabled | default(defaults.disabled) | ternary('true', 'false') }}

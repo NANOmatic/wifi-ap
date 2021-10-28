@@ -9,12 +9,12 @@
   register: wifiap
   changed_when: >
     not (
-      'debug: ' ~ (debug | default(defaults.debug)) in wifiap.stdout_lines and
+      'debug: ' ~ (debug | default(defaults.debug) | ternary('true', 'false')) in wifiap.stdout_lines and
       'dhcp.lease-time: ' ~ (dhcp.leaseTime | default(defaults.dhcp.leaseTime)) in wifiap.stdout_lines and
       'dhcp.range-start: ' ~ (dhcp.start | default(defaults.dhcp.start)) in wifiap.stdout_lines and
       'dhcp.range-stop: ' ~ (dhcp.stop | default(defaults.dhcp.stop)) in wifiap.stdout_lines and
-      'disabled: ' ~ (disabled | default(defaults.disabled)) in wifiap.stdout_lines and
-      'share.disabled: ' ~ (share.disabled | default(defaults.share.disabled)) in wifiap.stdout_lines and
+      'disabled: ' ~ (disabled | default(defaults.disabled) | ternary('true', 'false')) in wifiap.stdout_lines and
+      'share.disabled: ' ~ (share.disabled | default(defaults.share.disabled) | ternary('true', 'false')) in wifiap.stdout_lines and
       'share.network-interface: ' ~ (share.interface | default(defaults.share.interface)) in wifiap.stdout_lines and
       'wifi.address: ' ~ (wifi.address | default(defaults.wifi.address)) in wifiap.stdout_lines and
       'wifi.channel: ' ~ (wifi.channel | default(defaults.wifi.channel)) in wifiap.stdout_lines and
